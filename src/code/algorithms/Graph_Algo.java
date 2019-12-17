@@ -1,9 +1,12 @@
 package code.algorithms;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import dataStructure.graph;
-import dataStructure.node_data;
+import code.dataStructure.DGraph;
+import code.dataStructure.graph;
+import code.dataStructure.node_data;
+
 /**
  * This empty class represents the set of graph-theory algorithms
  * which should be implemented as part of Ex2 - Do edit this class.
@@ -12,15 +15,17 @@ import dataStructure.node_data;
  */
 public class Graph_Algo implements graph_algorithms{
 
+	private ArrayList <graph> a =new ArrayList<graph>();
+
+
 	@Override
 	public void init(graph g) {
-		// TODO Auto-generated method stub
-		
+			a.add(g);
 	}
 
 	@Override
 	public void init(String file_name) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -32,7 +37,7 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 

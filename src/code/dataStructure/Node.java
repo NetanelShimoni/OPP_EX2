@@ -5,6 +5,8 @@ import code.utils.Point3D;
 import java.util.HashMap;
 
 public class Node implements node_data {
+    HashMap<Integer,edge_data> edegesmap =new HashMap<Integer, edge_data>();
+    //HashMap<Integer,edge_data> edgesdest =new HashMap<Integer, edge_data>();
     public static int mark=0;
     private Point3D location;
     private double weight;

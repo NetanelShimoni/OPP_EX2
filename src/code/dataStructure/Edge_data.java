@@ -19,6 +19,7 @@ public class Edge_data implements edge_data {
         this.src=sr;
         this.dest=des;
         this.weight=w;
+
     }
     @Override
     public int getSrc() {
