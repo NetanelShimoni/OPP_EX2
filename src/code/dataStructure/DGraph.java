@@ -2,9 +2,9 @@ package code.dataStructure;
 import java.util.*;
 
 public class DGraph implements graph {
-	HashMap<Integer, node_data> allnode = new HashMap<Integer, node_data>();
-	ArrayList<edge_data> edges = new ArrayList<edge_data>();
-	private HashMap<Integer, HashMap<Integer, edge_data>> alledges = new HashMap<Integer, HashMap<Integer, edge_data>>();
+	public HashMap<Integer, node_data> allnode = new HashMap<Integer, node_data>();
+	public ArrayList<edge_data> edges = new ArrayList<edge_data>();
+	public HashMap<Integer, HashMap<Integer, edge_data>> alledges = new HashMap<Integer, HashMap<Integer, edge_data>>();
 
 	@Override
 	public node_data getNode(int key) {
@@ -30,25 +30,36 @@ public class DGraph implements graph {
 	}
 	@Override
 	public void connect(int src, int dest, double w) {
-		Node u= (Node) allnode.get(src);
-		Edge_data a= new Edge_data(src,dest,w);
-		if (alledges.get(src).get(dest)==null){
-			alledges.put(src,new HashMap<Integer, edge_data>());
-		}
-		alledges.get(src).put(dest,a);
+
+
+
+			Edge_data a = new Edge_data(src, dest, w);
+			if (this.alledges.get(src) == null) {
+				this.alledges.put(src, new HashMap<Integer, edge_data>());
+				this.alledges.get(src).put(dest, a);
+			} else {
+				this.alledges.get(src).put(dest, a);
+
+			}
+
 	}
 
 	@Override
 	public Collection<node_data> getV() {
-		Collection<node_data> a= (Collection<node_data>) allnode;
-		return a;
+		return allnode.values();
+//		Collection<node_data> a= (Collection<node_data>) allnode;
+//		return a;
 	}
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-
-		Collection<edge_data> a= (Collection<edge_data>) alledges.get(node_id);
-		return a;
+		if (this.alledges.get(node_id) == null) {
+			return null;
+		} else {
+//		Collection<edge_data> a= (Collection<edge_data>) this.alledges.get(node_id);
+//		return a;
+			return alledges.get(node_id).values();
+		}
 	}
 
 	@Override
@@ -77,6 +88,7 @@ public class DGraph implements graph {
 		if(alledges.get(src).get(dest)!=null){
 			Edge_data a = new Edge_data();
 			a= (Edge_data) alledges.get(src).get(dest);
+			alledges.get(src).remove(dest);
 			return a;
 		}
 		else{
