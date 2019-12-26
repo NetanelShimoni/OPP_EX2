@@ -24,7 +24,7 @@ public class Graph_Algo implements graph_algorithms{
     private DGraph g = new DGraph();
     public void initColor(graph g)
     {
-        for (int i = 0;i<g.nodeSize(); i++) {
+        for (int i= 0;i<g.nodeSize(); i++) {
             g.getNode(i).setTag(0);
         }
     }
@@ -118,18 +118,6 @@ public class Graph_Algo implements graph_algorithms{
                 }
             }
 
-//        Iterator it = g.getV().iterator();
-//        while(it.hasNext()){
-//            node_data vdata = (node_data)it.next();
-//            vdata.setTag(1);
-//
-//            for (int i = 0; i < g.nodeSize(); i++) {
-//                if(g.getNode(i).getTag()==0)
-//                    return false;
-//            }
-//
-//
-//        }
         return true;
     }
 
@@ -203,14 +191,74 @@ public class Graph_Algo implements graph_algorithms{
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+        ////////weight=INFINITY
+        if (this.g.allnode.get(src)==null || this.g.allnode.get(dest)==null){
+            return -1;
+        }
 
+        initINFINTI(this.g);
+        ///////tag=0
+        initColor(this.g);
+        double sum=0;
+        double ans=0;
+        node_data temp = this.g.getNode(src);
+        temp.setTag(1);
+        temp.setWeight(0);
+        Stack <node_data> q =new Stack<node_data>();
+        for (int i = this.g.allnode.size()-1; i >=0 ; i--) {
+            if (this.g.allnode.get(i) != temp) {
+                q.add(this.g.getNode(i));
+
+
+            }
+        }
+        q.add(temp);
+        while (!q.isEmpty()){
+            node_data k =q.pop();
+            Collection <edge_data> a = new LinkedList<edge_data>();
+                    a=this.g.getE(k.getKey());
+            if (a!=null){
+            Iterator it = a.iterator();
+            while(it.hasNext()){
+                edge_data y = (edge_data) it.next();
+                node_data r = this.g.getNode(y.getDest());
+                //if(r.getTag()==0){
+                    r.setTag(1);
+                     sum = k.getWeight()+y.getWeight();
+                     if(sum<r.getWeight()){
+                         r.setWeight(sum);
+                         if (r!=temp) {
+                             r.setInfo("" + k.getKey());
+                         }
+//                         System.out.println(r.getWeight());
+                         //System.out.println(r.getInfo());
+
+                     }}
+               // }
+
+            }
+        }
+return this.g.allnode.get(dest).getWeight();
+        }
+    private void initINFINTI(DGraph g) {
+        for (int i = 0; i <g.allnode.size() ; i++) {
+            this.g.allnode.get(i).setWeight(Integer.MAX_VALUE);
+        }
+    }
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-        // TODO Auto-generated method stub
-        return null;
+    List <node_data> ans = new LinkedList<node_data>();
+    double k = shortestPathDist(src,dest);
+      //  System.out.println(this.g.allnode.get(src).getWeight());
+        node_data sr =this.g.allnode.get(src);
+        node_data des = this.g.allnode.get(dest);
+        ans.add(des);
+        while (des.getWeight()!=0){
+            double key= Double.parseDouble(des.getInfo());
+            des= this.g.allnode.get((int)key);
+            ans.add(des);
+        }
+        return ans;
     }
 
     @Override
@@ -221,8 +269,22 @@ public class Graph_Algo implements graph_algorithms{
 
     @Override
     public graph copy() {
-        // TODO Auto-generated method stub
-        return null;
+        graph copy =  new DGraph();
+        for (int i = 0;i<this.g.nodeSize(); i++)
+        {
+            node_data temp =this.g.allnode.get(i);
+            copy.addNode(temp);
+            Collection <edge_data> copy_edge = new LinkedList<edge_data>();
+            copy_edge =  this.g.getE(temp.getKey());
+            if (copy_edge!=null) {
+                Iterator it = copy_edge.iterator();
+                while (it.hasNext()) {
+                    edge_data temp_edge = (edge_data) it.next();
+                    copy.connect(temp_edge.getSrc(), temp_edge.getDest(), temp_edge.getWeight());
+                }
+            }
+        }
+        return copy;
+    }
     }
 
-}

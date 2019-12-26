@@ -1,10 +1,7 @@
 package code.utils;
 
 import code.algorithms.Graph_Algo;
-import code.dataStructure.DGraph;
-import code.dataStructure.Node;
-import code.dataStructure.edge_data;
-import code.dataStructure.node_data;
+import code.dataStructure.*;
 import code.utils.Point3D;
 import code.utils.StdDraw;
 import java.awt.*;
@@ -26,7 +23,7 @@ public class GUI_stdDraw {
 //        GUIgraph(this.d);
 //    }
 
-    public void GUIgraph(DGraph d) {
+    public void GUIgraph(graph d) {
         double minX=0, minY=0,maxX=0,maxY=0;
         Iterator it = d.getV().iterator();
             while(it.hasNext()){
@@ -41,14 +38,15 @@ public class GUI_stdDraw {
             StdDraw.setYscale(minY-2,maxY+1);
          it = d.getV().iterator();
          StdDraw.setPenRadius(0.004);
-        for (int i = 1; i <d.allnode.size(); i++) {
+        while (it.hasNext()){
+            node_data a = (node_data) it.next();
             StdDraw.setPenRadius(0.004);
-            StdDraw.setPenColor(Color.RED);
-            StdDraw.filledCircle(d.allnode.get(i).getLocation().x(),d.allnode.get(i).getLocation().y(),0.05);
+            StdDraw.setPenColor(Color.BLACK);
+            StdDraw.filledCircle(a.getLocation().x(),a.getLocation().y(),0.05);
             StdDraw.setPenColor(Color.BLACK);
             StdDraw.setFont(new Font("Arial",Font.BOLD,20));
-            StdDraw.text(d.allnode.get(i).getLocation().x()+0.06,d.allnode.get(i).getLocation().y()+0.06,""+i);
-            Collection<edge_data> Ni= d.getE(i);
+            StdDraw.text(a.getLocation().x()+0.06,a.getLocation().y()+0.06,""+(a.getKey()));
+            Collection<edge_data> Ni= d.getE(a.getKey());
             if(Ni!=null){
                 Iterator <edge_data> itn= Ni.iterator();
                 while (itn.hasNext()){
@@ -59,14 +57,15 @@ public class GUI_stdDraw {
                 node_data des= d.getNode(dest);
                 StdDraw.setPenColor(Color.RED);
                 StdDraw.line(sr.getLocation().x() ,sr.getLocation().y(),des.getLocation().x(),des.getLocation().y());
-                StdDraw.setPenColor(Color.darkGray);
+                    StdDraw.setPenColor(Color.YELLOW);
+                    StdDraw.filledCircle(0.9*des.getLocation().x()+0.1*sr.getLocation().x(),0.9*des.getLocation().y()+0.1*sr.getLocation().y(),0.04);
+                    StdDraw.setPenColor(Color.darkGray);
                 StdDraw.text((sr.getLocation().x()+ des.getLocation().x())/2,(sr.getLocation().y()+ des.getLocation().y())/2,
                         ""+temp.getWeight());
-                StdDraw.setPenColor(Color.YELLOW);
-                StdDraw.filledCircle(0.1*des.getLocation().x()+0.9*sr.getLocation().x(),0.1*des.getLocation().y()+0.9*sr.getLocation().y(),0.04);
 
                 }
             }
+
 
         }
 
@@ -101,28 +100,36 @@ public class GUI_stdDraw {
         Node v2 = new Node(new Point3D(2,5,0),80,"or",0);
         Node v3 = new Node(new Point3D(4,3,0),100,"oghgh",0);
         Node v4 = new Node(new Point3D(4,5,0),80,"or",0);
-        Node v5 = new Node(new Point3D(2.5,5,0),80,"or",0);
-        Node v6 = new Node(new Point3D(1.8,5,0),80,"or",0);
+//        Node v5 = new Node(new Point3D(2.5,5,0),80,"or",0);
+//        Node v6 = new Node(new Point3D(1.8,5,0),80,"or",0);
       //  Node v4 = new Node(new Point3D(1,1,0),100,"oghgh",0);
         DGraph u = new DGraph();
         u.addNode(v1);
         u.addNode(v2);
         u.addNode(v3);
+//        u.addNode(v6);
         u.addNode(v4);
-        u.addNode(v5);
-        u.addNode(v6);
-     //   u.addNode(v4);
-        u.connect(v1.getKey(),v2.getKey(),100);
-        u.connect(v3.getKey(),v2.getKey(),20);
-        u.connect(v3.getKey(),v1.getKey(),3);
-        u.connect(v5.getKey(),v1.getKey(),20.3);
-        u.connect(v2.getKey(),v1.getKey(),2.6);
-        u.connect(v3.getKey(),v2.getKey(),8.2);
-        u.connect(v6.getKey(),v5.getKey(),10);
-       // u.connect(v3.getKey(),v1.getKey(),8);
-       // u.connect(v4.getKey(),v1.getKey(),8);
+        u.connect(v1.getKey(),v2.getKey(),0.5);
+        u.connect(v2.getKey(),v3.getKey(),0.5);
+        u.connect(v3.getKey(),v1.getKey(),2);
+        u.connect(v3.getKey(),v4.getKey(),30);
+       u.connect(v1.getKey(),v3.getKey(),2);
+       u.connect(v3.getKey(),v2.getKey(),60);
+       u.connect(v2.getKey(),v4.getKey(),0.25);
+      // u.removeNode(v1.getKey());
 
-        G.GUIgraph(u);
+        Graph_Algo temp = new Graph_Algo();
+        temp.init(u);
+        System.out.println(temp.shortestPathDist(0,3));
+        graph t;
+        t= temp.copy();
+        G.GUIgraph(t);
+        Graph_Algo y = new Graph_Algo();
+        y.init(t);
+        System.out.println(temp.shortestPath(0,1).toString());
+       System.out.println( y.isConnected());
+
+
 
     }
 }
