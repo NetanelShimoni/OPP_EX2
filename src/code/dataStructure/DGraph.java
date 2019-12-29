@@ -30,36 +30,24 @@ public class DGraph implements graph {
 	}
 	@Override
 	public void connect(int src, int dest, double w) {
-
-
-
-			Edge_data a = new Edge_data(src, dest, w);
-			if (this.alledges.get(src) == null) {
-				this.alledges.put(src, new HashMap<Integer, edge_data>());
-				this.alledges.get(src).put(dest, a);
-			} else {
-				this.alledges.get(src).put(dest, a);
-
-			}
-
+		Edge_data a= new Edge_data(src,dest,w);
+		if (alledges.get(src).get(dest)==null){
+			alledges.put(src,new HashMap<Integer, edge_data>());
+		}
+		alledges.get(src).put(dest,a);
 	}
 
 	@Override
 	public Collection<node_data> getV() {
-		return allnode.values();
-//		Collection<node_data> a= (Collection<node_data>) allnode;
-//		return a;
+		Collection<node_data> a= (Collection<node_data>) allnode;
+		return a;
 	}
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		if (this.alledges.get(node_id) == null) {
-			return null;
-		} else {
-//		Collection<edge_data> a= (Collection<edge_data>) this.alledges.get(node_id);
-//		return a;
-			return alledges.get(node_id).values();
-		}
+
+		Collection<edge_data> a= (Collection<edge_data>) alledges.get(node_id);
+		return a;
 	}
 
 	@Override

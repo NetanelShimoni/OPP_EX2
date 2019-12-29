@@ -22,7 +22,7 @@ public interface edge_data {
 	public double getWeight();
 	/**
 	 * return the remark (meta data) associated with this edge.
-	 * @returns
+	 * @return
 	 */
 	public String getInfo();
 	/**

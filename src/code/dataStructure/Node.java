@@ -30,13 +30,6 @@ public class Node implements node_data {
     this.info=in;
     mark++;
     }
-
-    public Node(Point3D p) {
-        this.setLocation(p);
-        this.key=mark;
-        mark++;
-    }
-
     @Override
     public int getKey() {
         return this.key;
@@ -66,7 +59,6 @@ public class Node implements node_data {
     public void setInfo(String s) {
     this.info=s;
     }
-
 
     @Override
     public int getTag() {
