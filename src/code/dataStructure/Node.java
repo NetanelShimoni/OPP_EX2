@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Node implements node_data {
     HashMap<Integer,edge_data> edegesmap =new HashMap<Integer, edge_data>();
     //HashMap<Integer,edge_data> edgesdest =new HashMap<Integer, edge_data>();
-    public static int mark=0;
+    public static int mark=1;
     private Point3D location;
     private double weight;
     private String info="";
@@ -30,6 +30,13 @@ public class Node implements node_data {
     this.info=in;
     mark++;
     }
+
+    public Node(Point3D p) {
+        this.setLocation(p);
+        this.key=mark;
+        mark++;
+    }
+
     @Override
     public int getKey() {
         return this.key;
@@ -59,6 +66,7 @@ public class Node implements node_data {
     public void setInfo(String s) {
     this.info=s;
     }
+
 
     @Override
     public int getTag() {

@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GUI_stdDraw {
 
@@ -23,7 +25,7 @@ public class GUI_stdDraw {
 //        GUIgraph(this.d);
 //    }
 
-    public void GUIgraph(graph d) {
+    public void GUIgraph(DGraph d) {
         double minX=0, minY=0,maxX=0,maxY=0;
         Iterator it = d.getV().iterator();
             while(it.hasNext()){
@@ -94,41 +96,83 @@ public class GUI_stdDraw {
 
 
     public static void main(String[] args) {
+        Graph_Algo ga;
+        graph g=new DGraph();
         GUI_stdDraw G = new  GUI_stdDraw();
+        g = new DGraph();
+        ga = new Graph_Algo();
+        g.addNode(new Node(new Point3D(30, 500)));
+        g.addNode(new Node(new Point3D(270, 80)));
+        g.addNode(new Node(new Point3D(50, 100)));
+        g.addNode(new Node(new Point3D(250, 250)));
+        g.addNode(new Node(new Point3D(500, 250)));
+        g.addNode(new Node(new Point3D(450, 550)));
+        g.connect(1, 3, 14);
+        g.connect(1, 4, 9);
+        g.connect(1, 6, 7);
+        g.connect(3, 2, 9);
+        g.connect(3, 4, 2);
+        g.connect(4, 1, 2);
+        g.connect(4, 3, 2);
+        g.connect(4, 5, 11);
+        g.connect(4, 6, 10);
+        g.connect(5, 2, 6);
+        g.connect(6, 5, 15);
+        ga.init(g);
+        G.GUIgraph((DGraph) g);
 
-        Node v1 = new Node(new Point3D(1,4,0),8,"hi",0);
-        Node v2 = new Node(new Point3D(2,5,0),80,"or",0);
-        Node v3 = new Node(new Point3D(4,3,0),100,"oghgh",0);
-        Node v4 = new Node(new Point3D(4,5,0),80,"or",0);
-//        Node v5 = new Node(new Point3D(2.5,5,0),80,"or",0);
-//        Node v6 = new Node(new Point3D(1.8,5,0),80,"or",0);
-      //  Node v4 = new Node(new Point3D(1,1,0),100,"oghgh",0);
-        DGraph u = new DGraph();
-        u.addNode(v1);
-        u.addNode(v2);
-        u.addNode(v3);
-//        u.addNode(v6);
-        u.addNode(v4);
-        u.connect(v1.getKey(),v2.getKey(),0.5);
-        u.connect(v2.getKey(),v3.getKey(),0.5);
-        u.connect(v3.getKey(),v1.getKey(),2);
-        u.connect(v3.getKey(),v4.getKey(),30);
-       u.connect(v1.getKey(),v3.getKey(),2);
-       u.connect(v3.getKey(),v2.getKey(),60);
-       u.connect(v2.getKey(),v4.getKey(),0.25);
-      // u.removeNode(v1.getKey());
-
-        Graph_Algo temp = new Graph_Algo();
-        temp.init(u);
-        System.out.println(temp.shortestPathDist(0,3));
-        graph t;
-        t= temp.copy();
-        G.GUIgraph(t);
-        Graph_Algo y = new Graph_Algo();
-        y.init(t);
-        System.out.println(temp.shortestPath(0,1).toString());
-       System.out.println( y.isConnected());
-
+//        Node v1 = new Node(new Point3D(1,4,0),8,"hi",0);
+//        Node v2 = new Node(new Point3D(2,5,0),80,"or",0);
+//        Node v3 = new Node(new Point3D(4,3,0),100,"oghgh",0);
+//        Node v4 = new Node(new Point3D(4,5,0),80,"or",0);
+////        Node v5 = new Node(new Point3D(2.5,5,0),80,"or",0);
+////        Node v6 = new Node(new Point3D(1.8,5,0),80,"or",0);
+//      //  Node v4 = new Node(new Point3D(1,1,0),100,"oghgh",0);
+//        DGraph u = new DGraph();
+//        u.addNode(v1);
+//        u.addNode(v2);
+//        u.addNode(v3);
+////        u.addNode(v6);
+//        u.addNode(v4);
+//        u.connect(v1.getKey(),v2.getKey(),0.5);
+//       // u.connect(v2.getKey(),v3.getKey(),0.5);
+//        u.connect(v3.getKey(),v1.getKey(),2);
+//        u.connect(v3.getKey(),v4.getKey(),30);
+//       u.connect(v1.getKey(),v3.getKey(),2);
+//       u.connect(v3.getKey(),v2.getKey(),60);
+//       u.connect(v2.getKey(),v4.getKey(),0.25);
+//      // u.connect(v3.getKey(),v4.getKey(),2);
+//       u.connect(v4.getKey(),v3.getKey(),2);
+//     //   System.out.println(u.removeEdge(v2.getKey(), v1.getKey()));
+//
+//        // u.removeNode(v1.getKey());
+//        // u.removeNode(v3.getKey());
+//        // u.removeNode(v2.getKey());
+//         //u.removeNode(v4.getKey());
+//       System.out.println(u.edgeSize());
+//       u.removeEdge(v2.getKey(),v4.getKey());
+//        System.out.println(u.edgeSize());
+//
+//
+//        Graph_Algo temp = new Graph_Algo();
+//        temp.init(u);
+//       // System.out.println(temp.shortestPathDist(2,3));
+////        graph t;
+////        t= temp.copy();
+//
+//        G.GUIgraph(u);
+//        Graph_Algo y = new Graph_Algo();
+////        y.init(t);
+//       // temp.shortestPath(0,1);
+//        System.out.println(temp.isConnected());
+//        List <Integer> iinteger = new LinkedList<Integer>();
+//        //iinteger.add(0);
+////        iinteger.add(1);
+////      iinteger.add(2);
+//       iinteger.add(3);
+//        iinteger.add(1);
+//    //  System.out.println(temp.TSP(iinteger));
+//
 
 
     }

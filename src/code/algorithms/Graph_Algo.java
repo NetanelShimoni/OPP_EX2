@@ -22,15 +22,27 @@ public class Graph_Algo implements graph_algorithms{
     //	private ArrayList <node_data> b =new ArrayList<node_data>();
     //	 HashMap<Integer, node_data> allnode = new HashMap<Integer, node_data>();
     private DGraph g = new DGraph();
+    public graph getGraph(){
+        return this.g;
+    }
     public void initColor(graph g)
     {
-        for (int i= 0;i<g.nodeSize(); i++) {
-            g.getNode(i).setTag(0);
+
+        Iterator it = this.g.allnode.values().iterator();
+        while (it.hasNext()){
+            Node t = (Node) it.next();
+            t.setTag(0);
+
         }
+
+//        for (int i= 0;i<g.nodeSize(); i++) {
+//            g.getNode(i).setTag(0);
+//        }
     }
 
     @Override
     public void init(graph g) {
+
         this.g=(DGraph) g;
     }
 
@@ -39,9 +51,10 @@ public class Graph_Algo implements graph_algorithms{
 
         try
         {
-            FileInputStream file = new FileInputStream("file_name");
+            FileInputStream file = new FileInputStream(file_name);
             ObjectInputStream in = new ObjectInputStream(file);
 
+            //init((graph) in.readObject());
             g= (DGraph)in.readObject();
 
             in.close();
@@ -53,7 +66,7 @@ public class Graph_Algo implements graph_algorithms{
 
         catch(IOException ex)
         {
-            System.out.println("IOException is caught");
+            System.out.println(ex);
         }
 
         catch(ClassNotFoundException ex)
@@ -247,32 +260,67 @@ return this.g.allnode.get(dest).getWeight();
     }
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-    List <node_data> ans = new LinkedList<node_data>();
-    double k = shortestPathDist(src,dest);
-      //  System.out.println(this.g.allnode.get(src).getWeight());
-        node_data sr =this.g.allnode.get(src);
-        node_data des = this.g.allnode.get(dest);
-        ans.add(des);
-        while (des.getWeight()!=0){
-            double key= Double.parseDouble(des.getInfo());
-            des= this.g.allnode.get((int)key);
-            ans.add(des);
+        List<node_data> ans= new LinkedList<node_data>();;
+        try {
+            List<node_data> temp = new LinkedList<node_data>();
+            double k = shortestPathDist(src, dest);
+            //  System.out.println(this.g.allnode.get(src).getWeight());
+            node_data sr = this.g.allnode.get(src);
+            node_data des = this.g.allnode.get(dest);
+            temp.add(des);
+            while (des.getWeight() != 0) {
+                double key = Double.parseDouble(des.getInfo());
+                des = this.g.allnode.get((int) key);
+                temp.add(des);
+            }
+            for (int i = temp.size() - 1; i >= 0; i--) {
+                ans.add(temp.get(i));
+            }
+        } catch (Exception e) {
+            return null;
         }
+
         return ans;
+
     }
 
     @Override
     public List<node_data> TSP(List<Integer> targets) {
-        // TODO Auto-generated method stub
+        List <node_data> ans = new LinkedList<node_data>();
+        if (!isConnected()) {
         return null;
+    }
+        if (targets.size()==1){
+            ans.add(this.g.allnode.get(targets.get(0)));
+            System.out.println(ans.get(0).getKey());
+            return ans;
+        }
+    else {
+            for (int i = 0; i <targets.size()-1 ; i++) {
+                ans.addAll(shortestPath(targets.get(i),targets.get(i+1)));
+                if (i!=0){
+                    ans.remove(i);
+                }
+            }
+            for (int i = 0; i <ans.size()-1 ; i++) {
+                if (ans.get(i).getKey()==ans.get(i+1).getKey()){
+                    ans.remove(i);
+                }
+            }
+    }
+        for (int i = 0; i <ans.size() ; i++) {
+            System.out.println(ans.get(i).getKey());
+        }
+    return ans;
     }
 
     @Override
     public graph copy() {
         graph copy =  new DGraph();
-        for (int i = 0;i<this.g.nodeSize(); i++)
-        {
-            node_data temp =this.g.allnode.get(i);
+
+            Iterator iter =  this.g.allnode.values().iterator();
+            while (iter.hasNext()){
+            node_data temp = (node_data) iter.next();
             copy.addNode(temp);
             Collection <edge_data> copy_edge = new LinkedList<edge_data>();
             copy_edge =  this.g.getE(temp.getKey());
