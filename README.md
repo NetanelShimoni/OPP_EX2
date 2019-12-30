@@ -4,7 +4,7 @@
 Netanel Shimoni
 
 Or laharty
-# project
+# PROJECT
 this project talk about graphics.
 you can use our Java project to solve math problems and calculate things like  distance of 2 vertex in the graph, get the direction between 2 vertex(list of vertex), and check if the graph is coneccted by all of is vertex.
 in addition, every user can make operations on the graph like add vertex or remove vertex, add edges between vertex and remove edges.
