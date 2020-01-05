@@ -13,6 +13,7 @@ import algorithms.Graph_Algo;
 import algorithms.graph_algorithms;
 import dataStructure.DGraph;
 import   dataStructure.graph;
+import utils.GUI_graph;
 import utils.Point3D;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +53,8 @@ class EX2Test {
         return ans;
     }
     boolean drawGraph(graph g) {
-        // YOUR GUI graph draw
+        GUI_graph a =new GUI_graph();
+        a.setVisible(true);
         return true;
 
     }

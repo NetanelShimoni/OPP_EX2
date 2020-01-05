@@ -1,12 +1,16 @@
-package code.Tests;
+package Tests;
 
 import static org.junit.Assert.fail;
 
-import code.dataStructure.DGraph;
-import code.dataStructure.Node;
-import code.dataStructure.graph;
-import code.utils.Point3D;
+import dataStructure.DGraph;
+import dataStructure.Node;
+import dataStructure.graph;
+import utils.Point3D;
+import dataStructure.DGraph;
+import dataStructure.Node;
+import dataStructure.graph;
 import org.junit.Test;
+import utils.Point3D;
 //import org.junit.jupiter.api.Test;
 //
 //import dataStructure.DGraph;
