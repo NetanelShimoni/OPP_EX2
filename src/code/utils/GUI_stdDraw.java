@@ -36,8 +36,8 @@ public class GUI_stdDraw {
                 minY=Math.min(minY,node.getLocation().y());
         }
             StdDraw.setCanvasSize(1000,1000);
-            StdDraw.setXscale(minX-2,maxX+2);
-            StdDraw.setYscale(minY-2,maxY+1);
+            StdDraw.setXscale(minX-750,maxX+750);
+            StdDraw.setYscale(minY-750,maxY+750);
          it = d.getV().iterator();
          StdDraw.setPenRadius(0.004);
         while (it.hasNext()){
@@ -107,6 +107,8 @@ public class GUI_stdDraw {
         g.addNode(new Node(new Point3D(250, 250)));
         g.addNode(new Node(new Point3D(500, 250)));
         g.addNode(new Node(new Point3D(450, 550)));
+        g.addNode(new Node(new Point3D(2000, 2000)));
+        g.connect(7,5,2);
         g.connect(1, 3, 14);
         g.connect(1, 4, 9);
         g.connect(1, 6, 7);

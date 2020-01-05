@@ -3,6 +3,7 @@ package code.utils;
 import code.algorithms.Graph_Algo;
 import code.dataStructure.*;
 import code.utils.Point3D;
+import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,26 +13,25 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import java.io.Serializable;
-import javax.swing.JFrame;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 
-public class GUI_graph extends JFrame implements ActionListener, MouseListener,Serializable
+public class GUI_graph extends JFrame implements ActionListener, MouseListener,Serializable,GUI_Running
 {
-    private static final String RM_EDGE = "Remove egde";
     private graph g;
     private int mc;
     private Graph_Algo ga = new Graph_Algo();
+    private static final long serialVersionUID = 1L;
 
     private static final String SAVE = "Save";
     private static final String LOAD = "Load";
-    private static final String SHORTEST_PATH_DISTANCE = "Shortest Path Distance";
-    private static final String SHORTEST_PATH = "Shortest Path";
     private static final String IS_CONNECTED = "Graph connected?";
-    private static final String TSP = "TSP";
     private static final String ADD_NODE = "Add node";
-    private static final String RM_NODE = "Remove node";
     private static final String ADD_EDGE = "Add edge";
 
     public GUI_graph()
@@ -54,78 +54,141 @@ public class GUI_graph extends JFrame implements ActionListener, MouseListener,S
 
     private void initGUI()
     {
+        this.ga.g.listen(this);
         this.setSize(1000, 1000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.initMenuBar();
-        this.initMCT();
-    }
-
-    private void initMCT() {
+        this.initMcThread();
     }
 
     private void initMenuBar() {
+
         MenuBar menuBar = new MenuBar();
         Menu file = new Menu("File");
         Menu algo = new Menu("Algorithms");
-        Menu node = new Menu("Node");
-        Menu edge = new Menu("Edge");
         menuBar.add(file);
         menuBar.add(algo);
-        menuBar.add(node);
-        menuBar.add(edge);
+   /*     menuBar.add(node);
+        menuBar.add(edge);*/
         this.setMenuBar(menuBar);
         MenuItem save = new MenuItem(SAVE);
         save.addActionListener(this);
         MenuItem load = new MenuItem(LOAD);
         load.addActionListener(this);
 
-        MenuItem spd = new MenuItem(SHORTEST_PATH_DISTANCE);
-        spd.addActionListener(this);
-        MenuItem sp = new MenuItem(SHORTEST_PATH);
-        sp.addActionListener(this);
+        MenuItem edge = new MenuItem(ADD_EDGE);
+        edge.addActionListener(this);
+
+
+
         MenuItem ic = new MenuItem(IS_CONNECTED);
         ic.addActionListener(this);
-        MenuItem tsp = new MenuItem(TSP);
-        tsp.addActionListener(this);
 
-        MenuItem nAdd = new MenuItem(ADD_NODE);
-        nAdd.addActionListener(this);
-        MenuItem nRm = new MenuItem(RM_NODE);
-        nRm.addActionListener(this);
 
-        MenuItem eAdd = new MenuItem(ADD_EDGE);
-        eAdd.addActionListener(this);
-        MenuItem eRm = new MenuItem(RM_EDGE);
-        eRm.addActionListener(this);
+
         file.add(save);
         file.add(load);
-        algo.add(spd);
-        algo.add(sp);
         algo.add(ic);
-        algo.add(tsp);
-        node.add(nAdd);
-        node.add(nRm);
-        edge.add(eAdd);
-        edge.add(eRm);
+        algo.add(edge);
+
+
         this.addMouseListener(this);
     }
 
     public void paint(Graphics g) {
         super.paint(g);
+        super.setPreferredSize(new Dimension(700,700));
         this.draeGraph(g);
     }
+    public void initMcThread(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    synchronized (this){
+                        if(g.getMC()!=mc){
+                            mc=g.getMC();
+                            repaint();
 
+                        }
+                    }
+                }
+            }
+        });
+        t.start();
+    }
     private void draeGraph(Graphics g) {
+        super.paint(g);
+
+//        if(this.g!=null) {
+//
+//            Collection <node_data> nodes=this.g.getV();
+//            Iterator I=nodes.iterator();
+//            while(I.hasNext()) {
+//                node_data n=((Node) I.next());
+//                g.setColor(Color.BLACK);
+//                Point3D p=n.getLocation();
+//                g.fillOval((int)(p.x()), (int)(p.y()+10), 15, 15);
+//                g.setColor(Color.RED);
+//
+//                String txt=Integer.toString(n.getKey());
+//                g.drawString(txt,p.ix(),p.iy()+4);
+//                g.setColor(Color.BLACK);
+//
+//
+//            }
+//
+//            g.setColor(Color.PINK);
+//            Collection <node_data> nodess=this.g.getV();
+//            Iterator<node_data> II=nodess.iterator();
+//            //Iterator<node_data> II=this.gg.getV().iterator();
+//
+//            while(II.hasNext()) {
+//                //HashMap<Integer,edge_data> current=new HashMap<Integer,edge_data>((HashMap<Integer,edge_data>)I.next());
+//                node_data B=II.next();
+//                HashMap<Integer,edge_data> edg2=new HashMap<Integer,edge_data>(this.ga.g.alledges.get(B.getKey()));
+//                Collection<edge_data> edges=edg2.values();
+//                Iterator <edge_data> j=edges.iterator();
+//                while(j.hasNext()) {
+//                    Edge edg=((Edge)j.next());
+//                    node_data src = this.g.getNode(edg.getSrc());
+//                    node_data des = this.g.getNode(edg.getDest());
+//
+//                    g.drawLine(src.getLocation().ix()+5,src.getLocation().iy()+15, des.getLocation().ix()+5, des.getLocation().iy()+15);
+//                    System.out.println("line");
+//
+//                    String txt=Double.toString(edg.getWeight());
+//                    double x_txt=(Math.abs(des.getLocation().x())+Math.abs(src.getLocation().x()))/2;
+//                    double y_txt=placeontheline(src.getLocation(),des.getLocation(),x_txt);
+//                    g.setColor(Color.BLUE);
+//                    g.drawString(txt, (int) x_txt, (int)y_txt+18);
+//                    double distance=(des.getLocation().x())-(src.getLocation().x());
+//                    double xx=des.getLocation().x()-distance/(10);
+//                    double yy=placeontheline(src.getLocation(),des.getLocation(),xx);
+//                    //Point3D vector=new Point3D(edg.getDes().getLocation().x()-edg.getSource().getLocation().x(),edg.getDes().getLocation().y()-edg.getSource().getLocation().y(),0);
+//                    Point3D yellow=new Point3D(xx,yy,0);
+//                    g.setColor(Color.YELLOW);
+//                    g.fillOval(yellow.ix(), yellow.iy()+9, 12, 12);
+//
+//                    g.setColor(Color.pink);
+//                }
+//            }
+//        }
         g.setFont(new Font("David",1,17));
-        for (node_data v: this.g.getV()) {
+        Iterator it = this.g.getV().iterator();
+
+        while (it.hasNext()){
+            node_data v = (node_data) it.next();
             Point3D p=v.getLocation();
             g.setColor(Color.BLACK);
-            g.fillOval(p.ix(),p.iy()-5,10,10);
-            g.drawString(""+(v.getKey()),p.ix(),p.iy()-5);
+            g.fillOval(p.ix(),p.iy(),10,10);
+            g.drawString(""+(v.getKey()),p.ix(),p.iy());
             Collection <edge_data> edge =this.g.getE(v.getKey());
             if (edge!=null){
-                for (edge_data e: edge) {
+                Iterator iterator =edge.iterator();
+                while (iterator.hasNext()){
+                    edge_data e = (edge_data) iterator.next();
                     g.setColor(Color.RED);
                     g.setFont(new Font("Ariel",Font.BOLD,19));
                     node_data y =  this.g.getNode(e.getDest());
@@ -137,69 +200,119 @@ public class GUI_graph extends JFrame implements ActionListener, MouseListener,S
                          c1=(p.ix()+y.getLocation().ix())/2;
                         c2=(p.iy()+y.getLocation().iy())/2;
                     }
-                    g.fillOval(c1-2,c2-2,7,7);
+                    g.fillOval((int) ((int)(p.ix()*0.2)+(0.8*y.getLocation().ix())+2),(int)((p.iy()*0.2)+(0.8*y.getLocation().iy())),9,9);
                 }
             }
         }
     }
+    public static double placeontheline(Point3D p1,Point3D p2,double x0) {    //return the f(x0)
+        double m=((p2.y()-p1.y())/(p2.ix()-p1.x()));
+        return m*(x0-p2.x())+p2.y();
+
+    }
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
         switch (s) {
             case SAVE: {
-                //   FileDialog f =new FileDialog(thi)
-                String p = lsDilaog("Save txt file", FileDialog.SAVE);
-                this.ga.save(p);
-                break;
+                Graph_Algo t = new Graph_Algo();
+                t.init((DGraph) this.g);
+                JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView());
+                j.setDialogTitle("Save graph to txt file");
+                int i = j.showSaveDialog(null);
+                if (i == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("path: " + j.getSelectedFile().getAbsolutePath());
+                    t.save(j.getSelectedFile().getAbsolutePath());
+
+                }
+
             }
 
+            break;
+
+
             case LOAD: {
-                String p =lsDilaog("Load the txt",FileDialog.LOAD);
-                this.ga.init(p);
-                this.g=this.ga.copy();
-                repaint();
+                Graph_Algo t = new Graph_Algo();
+                t.init((DGraph) this.g);
+                JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView());
+                j.setDialogTitle("graph load");
+                int i = j.showSaveDialog(null);
+                if (i == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("path: " + j.getSelectedFile().getAbsolutePath());
+                    t.init(j.getSelectedFile().getAbsolutePath());
+                    graph y = t.copy();
+                    initGUI(y);
+
+                }
                 break;
             }
-            case SHORTEST_PATH_DISTANCE: {
-                this.shortpath_gui("DISTANCE");
+                case IS_CONNECTED: {
+                    JFrame isIt = new JFrame();
+                    Graph_Algo isCga = new Graph_Algo();
+                    isCga.init(this.g);
+                    if (isCga.isConnected()) {
+                        //System.out.println("The graph is Connected !");
+                        JOptionPane.showMessageDialog(isIt, " Connected !");
+                    } else {
+                        // System.out.println("The graph is not Connected !");
+                        JOptionPane.showMessageDialog(isIt, "not Connected !");
+                    }
+                    break;
+                }
+            case ADD_EDGE: {
+                String src = JOptionPane.showInputDialog("insert source node");
+                String dest = JOptionPane.showInputDialog("insert destention node");
+                String weight = JOptionPane.showInputDialog("insert edge weight");
+                int src1, dest1;
+                double weight1;
+                try {
+                    src1 = Integer.parseInt(src);
+                    dest1 = Integer.parseInt(dest);
+                    weight1 = Double.parseDouble(weight);
+                    g.connect(src1, dest1, weight1);
+                    repaint();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "error:" + ex.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
             }
+                default:
+                    throw new IllegalStateException("Unexpected value: " + s);
 
 
         }
-       repaint();
+        repaint();
 
     }
 
-    private void shortpath_gui(String distance) {
-
+    private void initGUI(graph g) {
+        this.g=g;
+        this.setSize(1280, 720);
+        this.setTitle("GRAPH");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon img = new ImageIcon("mari.png");
+        this.setIconImage(img.getImage());
+        this.setResizable(true);
+        this.initMenuBar();
     }
-
-    private String lsDilaog(String save_txt_file, int save) {
-        FileDialog f = new FileDialog(this, save_txt_file, save);
-        f.setFile("*.txt");
-        f.setFilenameFilter(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) {
-                return s.endsWith(".txt");
-            }
-        });
-        f.setVisible(true);
-        System.out.println(f.getFile()+f.getDirectory());
-        return f.getFile();
-    }
-
-
     @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("mouseClicked");
+    public void mouseClicked(MouseEvent mouseEvent) {
+        int x = mouseEvent.getX();
+        int y = mouseEvent.getY();
+
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        int x = e.getX();
+        int y = e.getY();
+        Point3D p = new Point3D(x,y);
+        Node temp = new Node(p);
+        this.g.addNode(temp);
+        repaint();
         System.out.println("mousePressed");
+
 
     }
 
@@ -217,6 +330,12 @@ public class GUI_graph extends JFrame implements ActionListener, MouseListener,S
 
     @Override
     public void mouseExited(MouseEvent e) {
+
         System.out.println("mouseExited");
+    }
+
+    @Override
+    public void graph_change() {
+      this.repaint();
     }
 }

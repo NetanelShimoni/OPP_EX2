@@ -2,9 +2,11 @@ package code.dataStructure;
 
 import code.utils.Point3D;
 
+import javax.swing.*;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Node implements node_data {
+public class Node  implements node_data, Serializable {
     HashMap<Integer,edge_data> edegesmap =new HashMap<Integer, edge_data>();
     //HashMap<Integer,edge_data> edgesdest =new HashMap<Integer, edge_data>();
     public static int mark=1;

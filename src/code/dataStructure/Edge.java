@@ -1,6 +1,8 @@
 package code.dataStructure;
 
-public class Edge implements edge_data {
+import javax.swing.*;
+
+public class Edge extends JFrame implements edge_data {
 
     private double weight;
     private int src;
