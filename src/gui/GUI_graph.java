@@ -1,4 +1,4 @@
-package utils;
+package gui;
 
 import algorithms.Graph_Algo;
 import dataStructure.*;
@@ -36,7 +36,7 @@ public class GUI_graph extends JFrame implements ActionListener, MouseListener,S
 
     public GUI_graph()
     {
-        this.g=new DGraph(20);
+        this.g=new DGraph();
         this.mc=this.g.getMC();
         this.ga.init(this.g);
         initGUI();
@@ -121,60 +121,7 @@ public class GUI_graph extends JFrame implements ActionListener, MouseListener,S
     private void draeGraph(Graphics g) {
         super.paint(g);
 
-//        if(this.g!=null) {
-//
-//            Collection <node_data> nodes=this.g.getV();
-//            Iterator I=nodes.iterator();
-//            while(I.hasNext()) {
-//                node_data n=((Node) I.next());
-//                g.setColor(Color.BLACK);
-//                Point3D p=n.getLocation();
-//                g.fillOval((int)(p.x()), (int)(p.y()+10), 15, 15);
-//                g.setColor(Color.RED);
-//
-//                String txt=Integer.toString(n.getKey());
-//                g.drawString(txt,p.ix(),p.iy()+4);
-//                g.setColor(Color.BLACK);
-//
-//
-//            }
-//
-//            g.setColor(Color.PINK);
-//            Collection <node_data> nodess=this.g.getV();
-//            Iterator<node_data> II=nodess.iterator();
-//            //Iterator<node_data> II=this.gg.getV().iterator();
-//
-//            while(II.hasNext()) {
-//                //HashMap<Integer,edge_data> current=new HashMap<Integer,edge_data>((HashMap<Integer,edge_data>)I.next());
-//                node_data B=II.next();
-//                HashMap<Integer,edge_data> edg2=new HashMap<Integer,edge_data>(this.ga.g.alledges.get(B.getKey()));
-//                Collection<edge_data> edges=edg2.values();
-//                Iterator <edge_data> j=edges.iterator();
-//                while(j.hasNext()) {
-//                    Edge edg=((Edge)j.next());
-//                    node_data src = this.g.getNode(edg.getSrc());
-//                    node_data des = this.g.getNode(edg.getDest());
-//
-//                    g.drawLine(src.getLocation().ix()+5,src.getLocation().iy()+15, des.getLocation().ix()+5, des.getLocation().iy()+15);
-//                    System.out.println("line");
-//
-//                    String txt=Double.toString(edg.getWeight());
-//                    double x_txt=(Math.abs(des.getLocation().x())+Math.abs(src.getLocation().x()))/2;
-//                    double y_txt=placeontheline(src.getLocation(),des.getLocation(),x_txt);
-//                    g.setColor(Color.BLUE);
-//                    g.drawString(txt, (int) x_txt, (int)y_txt+18);
-//                    double distance=(des.getLocation().x())-(src.getLocation().x());
-//                    double xx=des.getLocation().x()-distance/(10);
-//                    double yy=placeontheline(src.getLocation(),des.getLocation(),xx);
-//                    //Point3D vector=new Point3D(edg.getDes().getLocation().x()-edg.getSource().getLocation().x(),edg.getDes().getLocation().y()-edg.getSource().getLocation().y(),0);
-//                    Point3D yellow=new Point3D(xx,yy,0);
-//                    g.setColor(Color.YELLOW);
-//                    g.fillOval(yellow.ix(), yellow.iy()+9, 12, 12);
-//
-//                    g.setColor(Color.pink);
-//                }
-//            }
-//        }
+
         g.setFont(new Font("David",1,17));
         Iterator it = this.g.getV().iterator();
 

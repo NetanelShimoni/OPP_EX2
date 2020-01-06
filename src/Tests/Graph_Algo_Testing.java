@@ -345,7 +345,9 @@ import dataStructure.DGraph;
 import dataStructure.Node;
 import dataStructure.graph;
 import dataStructure.node_data;
-import utils.GUI_graph;
+
+import gui.GUI_graph;
+import jdk.nashorn.internal.runtime.ECMAException;
 import utils.Point3D;
 import org.junit.jupiter.api.Test;
 
@@ -354,36 +356,6 @@ public class Graph_Algo_Testing {
    private Graph_Algo ga=new Graph_Algo();
     private graph g=new DGraph();
     private int mc=0;
-
-//    @BeforeEach
-//    void createGraph() {
-//       // Node.resetUUID();
-//        g = new DGraph();
-//        ga = new Graph_Algo();
-//        mc=this.g.getMC();
-//        g.addNode(new Node(new Point3D(30, 500)));
-//        g.addNode(new Node(new Point3D(270, 80)));
-//        g.addNode(new Node(new Point3D(50, 100)));
-//        g.addNode(new Node(new Point3D(250, 250)));
-//        g.addNode(new Node(new Point3D(500, 250)));
-//        g.addNode(new Node(new Point3D(450, 550)));
-//        g.connect(1, 3, 14);
-//        g.connect(1, 4, 9);
-//
-//        g.connect(1, 6, 7);
-//        g.connect(3, 2, 9);
-//        g.connect(3, 4, 2);
-//        g.connect(4, 1, 2);
-//        g.connect(4, 3, 2);
-//        g.connect(4, 5, 11);
-//        g.connect(4, 6, 10);
-//        g.connect(5, 2, 6);
-//        g.connect(6, 5, 15);
-//        g.connect(2,4,20);
-//        ga.init(g);
-//        GUI_graph b = new GUI_graph((DGraph) g);
-//        b.setVisible(true);
-//    }
 
     @Test
     void copyGraph() {
@@ -398,53 +370,9 @@ public class Graph_Algo_Testing {
 
     @Test
     void saveInitFile() {
-        g.removeEdge(6, 5);
-        ga.init(g);
-        ga.save("junit_test1.txt");
-        g.connect(6, 5, 15);
-        ga.init("junit_test1.txt");
-        System.out.println(g.edgeSize());
-        graph currGraph = ga.copy();
-        System.out.println(currGraph.edgeSize());
-        assertTrue(currGraph.edgeSize() != g.edgeSize());
-        assertTrue(currGraph.getEdge(6, 5) == null);
-    }
-
-    @Test
-    void shortestPathDist() throws InterruptedException {
-      // createGraph();
-        double spd = 20; // shortest path distance between 1 and 2
-        GUI_graph a = new GUI_graph((DGraph) g);
-        a.setVisible(true);
-        double sho = ga.shortestPathDist(1, 2);
-        assertEquals(spd, ga.shortestPathDist(1, 2));
-
-        spd = Double.MAX_VALUE; // shortest path distance between 5 and 3 (No path)
-        assertEquals(spd, ga.shortestPathDist(5, 3));
-        spd = 11; // shortest path distance between 4 and 2
-        assertEquals(spd, ga.shortestPathDist(4, 2));
-    }
-
-    @Test
-    void shortestPath() {
-        assertEquals(null, ga.shortestPath(5, 3));
-        assertNotEquals(null, ga.shortestPath(1, 2));
-    }
-
-    @Test
-    void isConnected() {
-        assertFalse(ga.isConnected());
-        g.connect(2, 3, 8);
-        g.connect(2, 5, 2);
-        assertTrue(ga.isConnected());
-    }
-
-    @Test
-    void TSP() {
-
-        DGraph g = new DGraph();
-        Graph_Algo ga = new Graph_Algo();
-        int mc = g.getMC();
+                g = new DGraph();
+        ga = new Graph_Algo();
+        mc=this.g.getMC();
         g.addNode(new Node(new Point3D(30, 500)));
         g.addNode(new Node(new Point3D(270, 80)));
         g.addNode(new Node(new Point3D(50, 100)));
@@ -463,21 +391,171 @@ public class Graph_Algo_Testing {
         g.connect(4, 6, 10);
         g.connect(5, 2, 6);
         g.connect(6, 5, 15);
+        g.connect(2,4,20);
+        ga.init(g);
+        g.removeEdge(6, 5);
+        ga.init(g);
+        ga.save("junit_test1.txt");
+        g.connect(6, 5, 15);
+        ga.init("junit_test1.txt");
+        System.out.println(g.edgeSize());
+        graph currGraph = ga.copy();
+        System.out.println(currGraph.edgeSize());
+        assertTrue(currGraph.edgeSize() != g.edgeSize());
+        assertTrue(currGraph.getEdge(6, 5) == null);
+    }
+
+    @Test
+    void shortestPathDist() throws InterruptedException {
+      // createGraph();
+                g = new DGraph();
+        ga = new Graph_Algo();
+        mc=this.g.getMC();
+        g.addNode(new Node(new Point3D(30, 500)));
+        g.addNode(new Node(new Point3D(270, 80)));
+        g.addNode(new Node(new Point3D(50, 100)));
+        g.addNode(new Node(new Point3D(250, 250)));
+        g.addNode(new Node(new Point3D(500, 250)));
+        g.addNode(new Node(new Point3D(450, 550)));
+        g.connect(1, 3, 14);
+        g.connect(1, 4, 9);
+
+        g.connect(1, 6, 7);
+        g.connect(3, 2, 9);
+        g.connect(3, 4, 2);
+        g.connect(4, 1, 2);
+        g.connect(4, 3, 2);
+        g.connect(4, 5, 11);
+        g.connect(4, 6, 10);
+        g.connect(5, 2, 6);
+        g.connect(6, 5, 15);
+    //    g.connect(2,4,20);
+        ga.init(g);
+        double spd = 20; // shortest path distance between 1 and 2
+        GUI_graph a = new GUI_graph((DGraph) g);
+        a.setVisible(true);
+        double sho = ga.shortestPathDist(1, 2);
+        assertEquals(spd, ga.shortestPathDist(1, 2));
+
+        spd = Double.MAX_VALUE; // shortest path distance between 5 and 3 (No path)
+//                GUI_graph b = new GUI_graph((DGraph) g);
+//        b.setVisible(true);
+//        try {
+//            Thread t = new Thread();
+//            t.sleep(100000);
+//        }catch (Exception E){
+//            System.out.println(E);
+//        }
+        assertEquals(spd, ga.shortestPathDist(5, 3));
+        spd = 11; // shortest path distance between 4 and 2
+        assertEquals(spd, ga.shortestPathDist(4, 2));
+    }
+
+    @Test
+    void shortestPath() {
+        g = new DGraph();
+        ga = new Graph_Algo();
+        mc=this.g.getMC();
+        g.addNode(new Node(new Point3D(30, 500)));
+        g.addNode(new Node(new Point3D(270, 80)));
+        g.addNode(new Node(new Point3D(50, 100)));
+        g.addNode(new Node(new Point3D(250, 250)));
+        g.addNode(new Node(new Point3D(500, 250)));
+        g.addNode(new Node(new Point3D(450, 550)));
+        g.connect(1, 3, 14);
+        g.connect(1, 4, 9);
+
+        g.connect(1, 6, 7);
+        g.connect(3, 2, 9);
+        g.connect(3, 4, 2);
+        g.connect(4, 1, 2);
+        g.connect(4, 3, 2);
+        g.connect(4, 5, 11);
+        g.connect(4, 6, 10);
+        g.connect(5, 2, 6);
+        g.connect(6, 5, 15);
+        //    g.connect(2,4,20);
+        ga.init(g);
+        assertEquals(null, ga.shortestPath(5, 3));
+        assertNotEquals(null, ga.shortestPath(1, 2));
+    }
+
+    @Test
+    void isConnected() {
+                g = new DGraph();
+        ga = new Graph_Algo();
+        mc=this.g.getMC();
+        g.addNode(new Node(new Point3D(30, 500)));
+        g.addNode(new Node(new Point3D(270, 80)));
+        g.addNode(new Node(new Point3D(50, 100)));
+        g.addNode(new Node(new Point3D(250, 250)));
+        g.addNode(new Node(new Point3D(500, 250)));
+        g.addNode(new Node(new Point3D(450, 550)));
+        g.connect(1, 3, 14);
+        g.connect(1, 4, 9);
+
+        g.connect(1, 6, 7);
+        g.connect(3, 2, 9);
+        g.connect(3, 4, 2);
+        g.connect(4, 1, 2);
+        g.connect(4, 3, 2);
+        g.connect(4, 5, 11);
+        g.connect(4, 6, 10);
+        //g.connect(5, 2, 6);
+        g.connect(6, 5, 15);
+        g.connect(2,4,20);
+        ga.init(g);
+
+
+        assertFalse(ga.isConnected());
+        g.connect(5, 2, 8);
+
+        assertTrue(ga.isConnected());
+    }
+
+    @Test
+    void TSP() {
+        DGraph g = new DGraph();
+        Graph_Algo ga = new Graph_Algo();
+        int mc = g.getMC();
+        g.addNode(new Node(new Point3D(30, 500)));
+        g.addNode(new Node(new Point3D(270, 80)));
+        g.addNode(new Node(new Point3D(50, 100)));
+        g.addNode(new Node(new Point3D(250, 250)));
+        g.addNode(new Node(new Point3D(500, 250)));
+        g.addNode(new Node(new Point3D(450, 550)));
+        g.connect(1, 3, 14);
+        g.connect(1, 4, 9);
+        g.connect(1, 6, 7);
+        g.connect(3, 2, 9);
+        g.connect(3, 4, 2);
+        g.connect(4, 1, 2);
+        g.connect(4, 3, 2);
+        g.connect(4, 5, 11);
+        g.connect(4, 6, 10);
+        g.connect(5, 2, 6);
+        g.connect(6, 5, 15);
+       // g.connect(3, 1, 15);
+        g.connect(6, 4, 15);
+      //  g.connect(6, 1, 15);
         //  g.connect(2, 4, 15);
         ga.init(g);
-        GUI_graph b = new GUI_graph((DGraph) g);
-        b.setVisible(true);
+
+
         List <Integer> y = new LinkedList<>();
         y.add(1);
         y.add(2);
         y.add(5);
         y.add(6);
-        Collection <node_data> o =    ga.TSP(y);
+
+         Collection <node_data> o =    ga.TSP(y);
             assertEquals(null, ga.TSP(y));
+
             List <Integer> y2 = new LinkedList<>();
             y2.add(4);
             y2.add(3);
-    Collection <node_data> p =ga.TSP(y2);
+            y2.add(6);
+            y2.add(1);
            assertNotEquals(null, ga.TSP(y2));
     }
 

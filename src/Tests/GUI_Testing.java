@@ -59,7 +59,7 @@ package Tests;
 import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.Node;
-import utils.GUI_graph;
+import gui.GUI_graph;
 import utils.Point3D;
 
 public class GUI_Testing {

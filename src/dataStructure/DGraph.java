@@ -110,8 +110,11 @@ public class DGraph extends JFrame implements graph {
 			if (this.alledges.get(src) == null) {
 				this.alledges.put(src, new HashMap<Integer, edge_data>());
 				this.alledges.get(src).put(dest, a);
+				this.edgesize++;
 			} else {
 				this.alledges.get(src).put(dest, a);
+				this.edgesize++;
+
 
 			}
 		make_changh();
@@ -126,7 +129,7 @@ public class DGraph extends JFrame implements graph {
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		if (this.alledges.get(node_id) == null) {
+		if (alledges.get(node_id) == null) {
 			return null;
 		} else {
 //		Collection<edge_data> a= (Collection<edge_data>) this.alledges.get(node_id);
@@ -135,27 +138,34 @@ public class DGraph extends JFrame implements graph {
 		}
 	}
 	@Override
-	public node_data removeNode(int key) {
+	public node_data 	removeNode(int key) {
 		// TODO Auto-generated method stub
 		node_data remove=null;
-		if(allnode.get(key)==null) {
+		if(this.allnode.get(key)==null) {
 			System.out.println("do not exsist");
 		}
 		else {
-			remove=((Node)allnode.get(key));
-			allnode.remove(key);
-			alledges.remove(key);
+			remove=((Node)this.allnode.get(key));
+			this.allnode.remove(key);
+			int size =this.alledges.get(key).size();
+			this.edgesize=this.edgesize-size;
+			this.alledges.remove(key);
 			Collection<node_data> node=this.getV();
 			Iterator J=node.iterator();
 			while(J.hasNext()) {
 				Node current=(Node) J.next();
-				HashMap<Integer,edge_data> hashcurrent=this.alledges.get(current.getKey());
+				//HashMap<Integer,edge_data> hashcurrent=this.alledges.get(current.getKey());
+				Collection <edge_data> hashcurrent = this.getE(current.getKey());
 				if(hashcurrent!=null) {
-					if (hashcurrent.get(key) != null)
-						hashcurrent.remove(key);
-					this.edgesize = this.edgesize - 1;
-				}
-
+				Iterator it = hashcurrent.iterator();
+				if (it!=null){
+					while (it.hasNext()) {
+						edge_data edge = (edge_data) it.next();
+						if (edge.getDest()== key) {
+							this.alledges.get(edge.getSrc()).remove(key);
+						this.edgesize = this.edgesize - 1;
+					}}
+				}}
 			}
 		}
 		MC++;
@@ -163,84 +173,16 @@ public class DGraph extends JFrame implements graph {
 		return remove;
 
 	}
-
-
-
-//	@Override
-//	public node_data removeNode(int key) {
-//		MC++;
-//		Node y = (Node) allnode.get(key);
-//		if (y==null){
-//			return null;
-//		}
-//		Collection <edge_data> exit = new LinkedList<edge_data>();
-//		exit = getE(key);
-//		//Iterator it = exit.iterator();
-//		if (exit!=null) {
-//			Iterator it = alledges.get(key).values().iterator();
-//			while (it.hasNext()) {
-//				Edge u = (Edge) it.next();
-//				it.remove();
-//			}
-//			Iterator iter = allnode.values().iterator();
-//			while (iter.hasNext()) {
-//				Node a = (Node) iter.next();
-//				Collection<edge_data> join = new LinkedList<edge_data>();
-//				join = getE(a.getKey());
-//				if (join!=null){
-//				Iterator itr = join.iterator();
-//				while (itr.hasNext()) {
-//					Edge temp = (Edge) itr.next();
-//					if (temp.getDest() == key) {
-//						this.alledges.remove(temp);
-//						itr.remove();
-//						//this.alledges.get(temp.getSrc()).remove(temp.getDest()).;
-//					}
-//				}}
-//
-//
-//			}
-//
-//
-//		}
-//
-//		allnode.remove(key);
-//		make_changh();
-//
-//		return y;
-//	}
-
-//	@Override
-//	public edge_data removeEdge(int src, int dest) {
-//		MC++;
-//		if(alledges.get(src).get(dest)!=null){
-//			Edge a = new Edge();
-//			a= (Edge) alledges.get(src).get(dest);
-//			alledges.get(src).remove(dest);
-//			make_changh();
-//
-//			return a;
-//		}
-//		else{
-//			make_changh();
-//
-//			return null;
-//		}
-//
-//	}
-
 	@Override
 	public edge_data removeEdge(int src, int dest) {
-		// TODO Auto-generated method stub
-
 		edge_data remove=new Edge();
-		if(allnode.get(src)==null||allnode.get(dest)==null) {
+		if(this.allnode.get(src)==null||this.allnode.get(dest)==null) {
 			System.out.println("there is no posibility to remove");
 		}
 
 		else {
-			remove=(Edge)alledges.get(src).get(dest);
-			alledges.get(src).remove(dest);
+			remove=(Edge)this.alledges.get(src).get(dest);
+			this.alledges.get(src).remove(dest);
 
 		}
 		edgesize--;

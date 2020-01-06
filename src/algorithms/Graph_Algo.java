@@ -5,8 +5,9 @@ import java.util.*;
 //import javax.swing.text.html.HTMLDocument.Iterator;
 
 import dataStructure.*;
-import utils.GUI_graph;
+
 import com.sun.org.apache.regexp.internal.recompile;
+import gui.GUI_graph;
 
 import java.io.*;
 import java.util.HashMap;
@@ -50,9 +51,7 @@ public class Graph_Algo implements graph_algorithms {
 
         }
 
-//        for (int i= 0;i<g.nodeSize(); i++) {
-//            g.getNode(i).setTag(0);
-//        }
+
     }
 
     @Override
@@ -113,61 +112,25 @@ public class Graph_Algo implements graph_algorithms {
 
     @Override
     public boolean isConnected() {
-//        Collection<node_data> colec = this.g.getV();
-//        if (colec.isEmpty())
-//            return true;
-//
-//        for (node_data src : colec) {
-//
-//            for (node_data des : colec) {
-//
-//                if (shortestPathDist(src.getKey(), des.getKey()) == Double.MAX_VALUE)
-//                    return false;
-//                if (shortestPathDist(des.getKey(), src.getKey()) == Double.MAX_VALUE)
-//                    return false;
-//
-//
-//            }
-//
-//        }
-//
-//return true;
-//    }
-
-
-        HashMap<Integer, node_data> getallnode = new HashMap<Integer, node_data>(g.allnode);
-        HashMap<Integer, HashMap<Integer, edge_data>> getalledges = new HashMap<Integer, HashMap<Integer, edge_data>>(g.alledges);
-
-
-        if (this.g.allnode.size() == 1) {
+        Collection<node_data> colec = this.g.getV();
+        if (colec.isEmpty())
             return true;
-        }
-        if (this.g.alledges.size() == 0 && this.g.allnode.size() > 1) {
-            return false;
-        }
-        if (this.g.allnode.size() > this.g.alledges.size()) {
-            return false;
-        }
-        initColor(g);
-        boolean ans = true;
-        Collection<node_data> temp = new ArrayList<>();
-        temp = this.g.getV();
-//        for (int i = 0; i <this.g.allnode.size() ; i++) {
-//            temp.add(this.g.allnode.get(i));
-//        }
-        Iterator it = temp.iterator();
-        while (it.hasNext()) {
-            node_data vdata = (node_data) it.next();
-            int k = this.numberofcon(vdata);
-            if(k==-1){
-                return false;
+
+        for (node_data src : colec) {
+
+            for (node_data des : colec) {
+
+                if (this.shortestPathDist(src.getKey(), des.getKey()) == Double.MAX_VALUE)
+                    return false;
+                if (this.shortestPathDist(des.getKey(), src.getKey()) == Double.MAX_VALUE)
+                    return false;
+
+
             }
-            if (k < this.g.allnode.size()) {
-                return false;
-            }
+
         }
 
-        return true;
+return true;
     }
 
     private int numberofcon(node_data vdata) {
@@ -187,7 +150,6 @@ public class Graph_Algo implements graph_algorithms {
                 }
                 count++;
                 Collection<node_data> t = new ArrayList<node_data>();
-               // Collection<edge_data> t = new ArrayList<>();
                 t = allWni(this.g.allnode.get(c.getKey()));
 
                 if (t!=null) {
@@ -198,11 +160,9 @@ public class Graph_Algo implements graph_algorithms {
                     }
                 }
                 else return -1;
-                //a.push((node_data) t);
             }
         }
 
-        //System.out.println(ans);
         return  ans;
 
     }
@@ -229,29 +189,6 @@ public class Graph_Algo implements graph_algorithms {
 
         }
 
-//        Collection<node_data> ans =new ArrayList<>();
-//        int key = vdata.getKey();
-//
-//        Ni=this.g.getE(this.g.alledges.get(vdata.getKey()).);
-//       Ni=this.g.getE(this.g.alledges.get(vdata.getKey()).);
-//        Iterator it =Ni.iterator();
-//       while (it.hasNext()) {
-//           edge_data e = (edge_data) it.next();
-//           int u = e.getDest();
-//           if (this.g.getNode(u).getTag() == 0){
-//               ans.add(this.g.getNode(u));
-//       }
-//       }
-//        int key=vdata.getKey();
-//        int y1= g.alledges.get(key).size();
-//        System.out.println(y1);
-//        for (int i = 0; i <g.alledges.get(key).size() ; i++) {
-//            int  j=g.alledges.get(key).get(i).getSrc();
-//            node_data y = g.allnode.get(j);
-//            if(y.getTag()==0) {
-//                Ni.add(y);
-//            }
-//        }
         return list;
 
     }
@@ -313,62 +250,6 @@ public class Graph_Algo implements graph_algorithms {
     }
 
 
-//    public double shortestPathDist(int src, int dest) {
-//        ////////weight=INFINITY
-//        if (this.g.allnode.get(src)==null || this.g.allnode.get(dest)==null){
-//            return -1;
-//        }
-//
-//        initINFINTI(this.g);
-//        ///////tag=0
-//        initColor(this.g);
-//        double sum=0;
-//        double ans=0;
-//        node_data temp = this.g.getNode(src);
-//        temp.setTag(1);
-//        temp.setWeight(0);
-//        Stack <node_data> q =new Stack<node_data>();
-//        Iterator iterator = this.g.allnode.values().iterator();
-//        Stack <node_data> b =new Stack<>();
-//        while (iterator.hasNext()){
-//            node_data t = (node_data) iterator.next();
-//            b.push(t);
-//        }
-//
-//        while(!b.isEmpty()){
-//            if (b.peek() != temp) {
-//                q.add(b.pop());
-//            }else {
-//                b.pop();
-//            }
-//        }
-//        q.add(temp);
-//        while (!q.isEmpty()){
-//            node_data k =q.pop();
-//            Collection <edge_data> a = this.g.getE(k.getKey());
-//            if (a!=null){
-//            Iterator it = a.iterator();
-//            while(it.hasNext()){
-//                edge_data y = (edge_data) it.next();
-//                node_data r = this.g.getNode(y.getDest());
-//                //if(r.getTag()==0){
-//                    r.setTag(1);
-//                     sum = k.getWeight()+y.getWeight();
-//                     if(sum<r.getWeight()){
-//                         r.setWeight(sum);
-//                         if (r!=temp) {
-//                             r.setInfo("" + k.getKey());
-//                         }
-////                         System.out.println(r.getWeight());
-//                         //System.out.println(r.getInfo());
-//
-//                     }}
-//               // }
-//
-//            }
-//        }
-//return this.g.allnode.get(dest).getWeight();
-//        }
     private void initINFINTI(DGraph g) {
         Iterator  it =this.g.allnode.values().iterator();
         while (it.hasNext()){
@@ -424,7 +305,7 @@ public class Graph_Algo implements graph_algorithms {
         if (!f.isConnected()){
             return null;
         }
-        GUI_graph a = new GUI_graph(copy1);
+      //  GUI_graph a = new GUI_graph(copy1);
 //        Collection w=f.g.getV();
 //        Iterator t= w.iterator();
 //        while(t.hasNext()){
@@ -451,44 +332,33 @@ public class Graph_Algo implements graph_algorithms {
            return f.TSP(targets);
 
     }
-
-
     @Override
     public List<node_data> TSP(List<Integer> targets) {
-        boolean flag = false;
-       // DGraph copy1 = new DGraph(this.g);
-        List<node_data> ans = new LinkedList<node_data>();
-        if (!isConnected()) {
-            return fake_Tsp(targets);
-        } else {
-            if (targets.size() == 1) {
-                ans.add(this.g.allnode.get(targets.get(0)));
-                return ans;
-            } else {
-                for (int i = 0; i < targets.size() - 1; i++) {
-                    if (shortestPath(targets.get(i),targets.get(i + 1))!=null) {
-                        ans.addAll(shortestPath(targets.get(i), targets.get(i + 1)));
-                        if (i != 0) {
-                            ans.remove(i);
-                        }
-                    }
-
-
-                }
-                for (int i = 0; i < ans.size() - 1; i++) {
-                    if (ans.get(i).getKey() == ans.get(i + 1).getKey()) {
-                        ans.remove(i);
-                    }
-                }
-            }
-            for (int i = 0; i < ans.size(); i++) {
-                System.out.println(ans.get(i).getKey());
-            }
-            if (ans.size() == 0) {
+        if (targets.size() == 1)
+            return null;
+        LinkedList<node_data> list = new LinkedList<node_data>();
+        for (int i = 0; i < targets.size() - 1; i++) {
+            List<node_data> l = shortestPath(targets.get(i), targets.get(i + 1));
+            if (l == null)
                 return null;
+            list.addAll(l);
+        }
+
+        return removeDuplicates(list);
+    }
+
+    private static LinkedList<node_data> removeDuplicates(LinkedList<node_data> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            node_data cur = list.get(i);
+            node_data next = list.get(i + 1);
+            if (cur.getKey() == next.getKey()) {
+                list.remove(i + 1);
             }
-            return ans;
-        }}
+
+        }
+        return list;
+    }
+
 
         @Override
         public graph copy () {

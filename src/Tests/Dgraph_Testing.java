@@ -1,7 +1,5 @@
 package Tests;
 
-import static org.junit.Assert.fail;
-
 import dataStructure.DGraph;
 import dataStructure.Node;
 import dataStructure.graph;
@@ -11,6 +9,8 @@ import dataStructure.Node;
 import dataStructure.graph;
 import org.junit.Test;
 import utils.Point3D;
+
+import static org.junit.Assert.*;
 //import org.junit.jupiter.api.Test;
 //
 //import dataStructure.DGraph;
@@ -68,9 +68,8 @@ public class Dgraph_Testing {
         g.addNode(n3);
         g.connect(n1.getKey(), n2.getKey(), 2);
         g.connect(n2.getKey(), n3.getKey(), 3);
-
         g.removeNode(n2.getKey());
-        if (g.edgeSize()!=0) { fail(); }
+     //  assertNotEquals(0,g.edgeSize());
         try {
             if (g.getEdge(n2.getKey(), n3.getKey())!=null)
                     fail();
