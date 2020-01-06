@@ -11,5 +11,8 @@ in addition, every user can make operations on the graph like add vertex or remo
 
 moreover, there is function gui that draw the the graph and dispaly it to the screen, the gui allowing to save the graph on txt file and init graph from txt file.
 
+# exemple drowa graph
 
+
+![](https://framapic.org/J25kMWGHYBwo/yPeBTnUa61vY.jpeg)
 
