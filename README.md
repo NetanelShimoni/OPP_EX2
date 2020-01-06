@@ -14,5 +14,5 @@ moreover, there is function gui that draw the the graph and dispaly it to the sc
 # exemple drowa graph
 
 
-![](https://framapic.org/gallery#nT3KJdSb06bL/vKeEgkOuFCbw.jpeg)
+![](https://framapic.org/nT3KJdSb06bL/vKeEgkOuFCbw.jpeg)
 
