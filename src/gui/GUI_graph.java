@@ -3,8 +3,6 @@ package gui;
 import algorithms.Graph_Algo;
 import dataStructure.*;
 import utils.Point3D;
-import org.junit.jupiter.api.Test;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
