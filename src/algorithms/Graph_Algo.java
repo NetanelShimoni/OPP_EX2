@@ -6,7 +6,7 @@ import java.util.*;
 
 import dataStructure.*;
 
-import com.sun.org.apache.regexp.internal.recompile;
+//import com.sun.org.apache.regexp.internal.recompile;
 import gui.GUI_graph;
 
 import java.io.*;
